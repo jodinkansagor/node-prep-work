@@ -1,55 +1,63 @@
+/* eslint-disable no-console */
 const querystring = require('querystring');
 const fs = require('fs');
 const formidable = require('formidable');
 
-function start(res) {
+function start(response) {
     console.log('Request handler "start" was called.');
 
     const body = '<html>' +
         '<head>' +
-        '<meta http-equiv="Content-Type" content="text/html; ' +
-        'charset=UTF-8" />' +
+        '<meta http-equiv="Content-Type" ' +
+        ' content="text/html; charset=UTF-8" />' +
         '</head>' +
         '<body>' +
         '<form action="/upload" enctype="multipart/form-data>" ' + 'method="post">' +
-        '<input type="file" name="upload">' +
+        '<input type="file" name="upload" multiple="multiple">' +
         '<input type="submit" value="Upload file" />' +
         '</form>' +
         '</body>' +
         '</html>';
 
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.write(body);
-    res.end();
+    response.writeHead(200, { 'Content-Type': 'text/html' });
+    response.write(body);
+    response.end();
 }
 
-function upload(res, req) {
+function upload(response, request) {
     console.log('Request handler "upload" was called.');
 
     const form = new formidable.IncomingForm();
     console.log('about to parse');
-    form.parse(req, function(error, fields, files){
-        console.log('parsing done');
-        console.log(files, 'FILES');
-        console.log(files.upload, 'FILES.UPLOAD');
-        console.log(files.upload.path, 'FILES.UPLOAD.PATH');
-        fs.rename(files.upload.path, '/tmp/test.png', function(error) {
-            if (error) {
-                fs.unlink('tmp/test.png');
-                fs.rename(files.upload.path, '/tmp/test.png');
-            }
-        });
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.write('received image: <br>');
-        res.write('<img src="/show" />');
-        res.end();
-    });
-}
 
-function show(res) {
+    // form.parse(request, function(error, fields, files) {
+    //     console.log('parsing done');
+ 
+    //     fs.rename(files.upload.path, './tmp/test.jpg', function(error) {
+    //         if (error) {
+    //             fs.unlink('./tmp/test.jpg');
+    //             fs.rename(files.upload.path, './tmp/test.jpg');
+    //         }
+    //     });
+    //     response.writeHead(200, { 'Content-Type': 'text/html' });
+    //     response.write('received image: <br/>');
+    //     response.write('<img src="/show" />');
+    //     response.end();
+    // });
+    form.parse(request);
+    console.log('parsing done');
+
+    response.writeHead(200, { 'Content-Type': 'text/html' });
+    response.write('received image: <br/>');
+    response.write('<img src="/show" />');
+    response.end();
+        
+} 
+ 
+function show(response) {
     console.log('Request handler "show" was called.');
-    res.writeHead(200, { 'Content-Type': 'image/png' });
-    fs.createReadStream('/tmp/test.png').pipe(res);
+    response.writeHead(200, { 'Content-Type': 'image/jpg' });
+    fs.createReadStream('./tmp/test.jpg').pipe(response);
 }
 
 exports.start = start;
