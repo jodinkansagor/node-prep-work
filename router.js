@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 function route(handle, pathname, response, request) {
     console.log('About to route a request for ' + pathname);
     if (typeof handle[pathname] === 'function') {
@@ -8,6 +9,6 @@ function route(handle, pathname, response, request) {
         response.write('404 not found');
         response.end();
     }
-}
+} 
 
 exports.route = route;

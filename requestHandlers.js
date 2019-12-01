@@ -1,4 +1,5 @@
-const querystring = require('querystring');
+/* eslint-disable no-console */
+// const querystring = require('querystring');
 const fs = require('fs');
 const formidable = require('formidable');
 
@@ -32,33 +33,23 @@ function upload(response, request) {
     form.parse(request, function(error, fields, files) {
         console.log('parsing done');
 
-        fs.rename(files.upload.path, './tmp/test.jpg', function(error) {
+        fs.rename(files.upload.path, 'tmp/test.jpg', function(error) {
             if (error) {
                 fs.unlink('./tmp/test.jpg');
-                fs.rename(files.upload.path, './tmp/test.jpg');
+                fs.rename(files.upload.path, 'tmp/test.jpg');
             }
         });
-        response.writeHead(200, { 'Content-Type': 'text/html' });
+        response.writeHead(200, { 'Content-Type': 'image/jpg' });
         response.write('received image: <br/>');
         response.write('<img src="/show" />');
         response.end();
-    });
-
-    // form.parse(request);
-    // console.log('parsing done');
-    
-
-    // response.writeHead(200, { 'Content-Type': 'text/html' });
-    // response.write('received image: <br/>');
-    // response.write('<img src="/show" />');
-    // response.end();
-        
+    });         
 }  
- 
+
 function show(response) {
     console.log('Request handler "show" was called.');
     response.writeHead(200, { 'Content-Type': 'image/jpg' });
-    fs.createReadStream('./tmp/test.jpg').pipe(response);
+    fs.createReadStream('tmp/test.jpg').pipe(response);
 }
 
 exports.start = start;
