@@ -1,0 +1,28 @@
+{
+  "name": "node-prep-work",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jodinkansagor/node-prep-work.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jodinkansagor/node-prep-work/issues"
+  },
+  "homepage": "https://github.com/jodinkansagor/node-prep-work#readme",
+  "dependencies": {
+    "formidable": "^1.2.1",
+    "fs": "0.0.1-security"
+  }
+}
