@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // const querystring = require('querystring');
 const fs = require('fs');
 const formidable = require('formidable');
@@ -26,17 +25,17 @@ function start(response) {
 
 function upload(response, request) {
     console.log('Request handler "upload" was called.');
-
+ 
     const form = new formidable.IncomingForm();
     console.log('about to parse');
 
     form.parse(request, function(error, fields, files) {
         console.log('parsing done');
 
-        fs.rename(files.upload.path, 'tmp/test.jpg', function(error) {
-            if (error) {
-                fs.unlink('./tmp/test.jpg');
-                fs.rename(files.upload.path, 'tmp/test.jpg');
+        fs.rename(files.upload.path, '/tmp/test.jpg', function(error) {
+            if (error) { 
+                fs.unlink('/tmp/test.jpg');
+                fs.rename(files.upload.path, '/tmp/test.jpg');
             }
         });
         response.writeHead(200, { 'Content-Type': 'image/jpg' });
