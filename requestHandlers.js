@@ -1,4 +1,4 @@
-// const querystring = require('querystring');
+const querystring = require('querystring');
 const fs = require('fs');
 const formidable = require('formidable');
 
@@ -8,7 +8,7 @@ function start(response) {
     const body = '<html>' +
         '<head>' +
         '<meta http-equiv="Content-Type" ' +
-        ' content="text/html; charset=UTF-8" />' +
+        'content="text/html; charset=UTF-8" />' +
         '</head>' +
         '<body>' +
         '<form action="/upload" enctype="multipart/form-data>" ' + 'method="post">' +
@@ -24,7 +24,7 @@ function start(response) {
 }
 
 function upload(response, request) {
-    console.log('Request handler "upload" was called.');
+    console.log('Request handler upload was called.');
  
     const form = new formidable.IncomingForm();
     console.log('about to parse');
@@ -33,12 +33,12 @@ function upload(response, request) {
         console.log('parsing done');
 
         fs.rename(files.upload.path, '/tmp/test.jpg', function(error) {
-            if (error) { 
+            if(error) { 
                 fs.unlink('/tmp/test.jpg');
                 fs.rename(files.upload.path, '/tmp/test.jpg');
             }
         });
-        response.writeHead(200, { 'Content-Type': 'image/jpg' });
+        response.writeHead(200, { 'Content-Type': 'text/html' });
         response.write('received image: <br/>');
         response.write('<img src="/show" />');
         response.end();
@@ -51,6 +51,6 @@ function show(response) {
     fs.createReadStream('tmp/test.jpg').pipe(response);
 }
 
-exports.start = start;
+exports.start = start; 
 exports.upload = upload;
 exports.show = show;
